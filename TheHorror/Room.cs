@@ -8,12 +8,14 @@ namespace TheHorror
 {
     public class Room
     {
-        /*public List<Location> Locations = new List<Location>();
-        public List<string> Exits = new List<string>();
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int XCoordinate { get; set; }
+        public int YCoordinate { get; set; }
 
-        public Room(Location location)
+        public Room(string name, string description, int xCoordinate, int yCoordinate)
         {
-            Locations.Add(location);
-        }*/
+
+        }
     }
 }

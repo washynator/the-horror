@@ -9,9 +9,9 @@ namespace TheHorror
     class Program
     {
         static string PlayerPrompt = ">> ";
-        static string PlayerName = "";
-        static Location CurrentLocation;
-
+        //static Location CurrentLocation;
+        static Player currentPlayer = new Player();
+        
         static void Main(string[] args)
         {
             StartGame();
@@ -25,18 +25,19 @@ namespace TheHorror
 
         static void StartGame()
         {
+            currentPlayer.Name = Console.ReadLine();
             Console.WriteLine("Welcome to THE HORROR!");
             Console.Write("Please enter your name, before entering the house of horrors: ");
-            PlayerName = Console.ReadLine();
-            Console.WriteLine("Okay, " + PlayerName + " we are happy to have you here. I'm sure you won't be so happy. BWAHAHAHAHA!");
+            Console.WriteLine("Okay, " + currentPlayer.Name + " we are happy to have you here. I'm sure you won't be so happy. BWAHAHAHAHA!");
             World.GenerateWorld();
-            CurrentLocation = World.home;
+            //CurrentLocation = World.home;
+
         }
 
         static void PrintPrompt()
         {
-            Console.WriteLine(CurrentLocation.Name);
-            Console.WriteLine(CurrentLocation.Description);
+            //Console.WriteLine(CurrentLocation.Name);
+            //Console.WriteLine(CurrentLocation.Description);
             Console.Write(PlayerPrompt);
         }
 
@@ -56,13 +57,12 @@ namespace TheHorror
 
         static void HandleMovement(string direction)
         {
-            switch(direction)
+            /*switch(direction)
             {
                 case "north":
                     if (World.GetLocation(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null)
                     {
                         CurrentLocation.YCoordinate += 1;
-                        //CurrentLocation = World.GetLocation(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate);
                         Console.WriteLine("Moving north");
                     }
                     else
@@ -71,7 +71,7 @@ namespace TheHorror
                     }
                     
                     break;
-            }
+            }*/
         }
 
         public static string GetInput(string playerInput)
