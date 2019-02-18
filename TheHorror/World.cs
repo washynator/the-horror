@@ -6,32 +6,40 @@ using System.Threading.Tasks;
 
 namespace TheHorror
 {
-    public static class World
+    public class World
     {
-        //List<Room> Rooms = new List<Room>();
-        //public static List<Location> locations = new List<Location>();
-        public static Room home = null;
-        public static Room testRoom = null;
+        List<Room> rooms = new List<Room>();
 
-        public static void GenerateWorld()
+        public void GenerateWorld()
         {
-            home = new Room("Home", "This is your home", 0, 0);
-            testRoom = new Room("Test room", "This is a test room", 0, 1);
-            //locations.Add(home);
-            //locations.Add(testRoom);
+            AddRoom("Home", "This is your home", 0, 0);
+            AddRoom("Test room", "This is a test room", 0, 1);
+            AddRoom("Another test room", "Still just testing", 1, 0);
+            AddRoom("Again with a test", "Yes, we are just testing", 1, 1);
         }
 
-        /*public static Location GetLocation(int xCoordinate, int yCoordinate)
+        public void AddRoom(string name, string description, int xCoordinate, int yCoordinate)
         {
-            foreach(Location location in locations)
+            Room room = new Room();
+            room.Name = name;
+            room.Description = description;
+            room.XCoordinate = xCoordinate;
+            room.YCoordinate = yCoordinate;
+
+            rooms.Add(room);
+        }
+
+        public Room GetRoom(int xCoordinate, int yCoordinate)
+        {
+            foreach(Room room in rooms)
             {
-                if (location.XCoordinate == xCoordinate && location.YCoordinate == yCoordinate)
+                if (room.XCoordinate == xCoordinate && room.YCoordinate == yCoordinate)
                 {
-                    return location;
+                    return room;
                 }
             }
 
             return null;
-        }*/
+        }
     }
 }

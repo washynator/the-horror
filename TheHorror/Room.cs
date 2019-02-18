@@ -12,10 +12,5 @@ namespace TheHorror
         public string Description { get; set; }
         public int XCoordinate { get; set; }
         public int YCoordinate { get; set; }
-
-        public Room(string name, string description, int xCoordinate, int yCoordinate)
-        {
-
-        }
     }
 }

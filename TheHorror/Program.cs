@@ -8,73 +8,76 @@ namespace TheHorror
 {
     class Program
     {
-        static string PlayerPrompt = ">> ";
-        //static Location CurrentLocation;
-        static Player currentPlayer = new Player();
+        public static Program CurrentSession = new Program();
+        public string PlayerPrompt = ">> ";
+        public Player CurrentPlayer = new Player();
+        public World CurrentWorld = new World();
+        public Room CurrentRoom = new Room();
+        readonly ConsoleColor defaultConsoleTextColor = ConsoleColor.Gray;
         
         static void Main(string[] args)
         {
-            StartGame();
+            CurrentSession.StartGame();
 
             do
             {
-                PrintExits();
-                PrintPrompt();
-            } while (GetInput(Console.ReadLine()) != KeyWords.keyWords[0]);
+                CurrentSession.PrintExits();
+                CurrentSession.PrintPrompt();
+            } while (CurrentSession.GetInput(Console.ReadLine()) != KeyWords.keyWords[0]);
         }
 
-        static void StartGame()
+        void StartGame()
         {
-            currentPlayer.Name = Console.ReadLine();
             Console.WriteLine("Welcome to THE HORROR!");
             Console.Write("Please enter your name, before entering the house of horrors: ");
-            Console.WriteLine("Okay, " + currentPlayer.Name + " we are happy to have you here. I'm sure you won't be so happy. BWAHAHAHAHA!");
-            World.GenerateWorld();
-            //CurrentLocation = World.home;
-
+            CurrentPlayer.Name = Console.ReadLine();
+            Console.WriteLine("Okay, " + CurrentPlayer.Name + " we are happy to have you here. I'm sure you won't be so happy. BWAHAHAHAHA!");
+            CurrentWorld.GenerateWorld();
+            CurrentRoom = CurrentWorld.GetRoom(0, 0);
         }
 
-        static void PrintPrompt()
+        void PrintPrompt()
         {
-            //Console.WriteLine(CurrentLocation.Name);
-            //Console.WriteLine(CurrentLocation.Description);
+            Console.WriteLine(CurrentRoom.Name);
+            Console.WriteLine(CurrentRoom.Description);
             Console.Write(PlayerPrompt);
         }
 
-        static void PrintExits()
+        void PrintExits()
         {
-            /*foreach(string exit in TestRoom.Exits)
+            string exitPrompt = "(";
+
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1) != null)
             {
-                Console.Write("(" + exit + ") ");
-            }*/
+                exitPrompt += " north ";
+            }
+
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate) != null)
+            {
+                exitPrompt += " east ";
+            }
+
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1) != null)
+            {
+                exitPrompt += " south ";
+            }
+
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate) != null)
+            {
+                exitPrompt += " west ";
+            }
+
+            Console.Write(exitPrompt + ") ");
+
         }
 
-        static void EditPrompt()
+        void EditPrompt()
         {
             Console.Write("Now you can input any kind of prompt you would like (space will not be added): ");
             PlayerPrompt = Console.ReadLine();
         }
 
-        static void HandleMovement(string direction)
-        {
-            /*switch(direction)
-            {
-                case "north":
-                    if (World.GetLocation(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null)
-                    {
-                        CurrentLocation.YCoordinate += 1;
-                        Console.WriteLine("Moving north");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Cannot move there!");
-                    }
-                    
-                    break;
-            }*/
-        }
-
-        public static string GetInput(string playerInput)
+        public string GetInput(string playerInput)
         {
             playerInput = playerInput.ToLower();
             string formattedPlayerInput = Regex.Replace(playerInput, " {2,}", " ");
@@ -92,16 +95,16 @@ namespace TheHorror
                         case "exit":
                             return "quit";
                         case "north":
-                            HandleMovement("north");
+                            MoveNorth();
                             break;
                         case "east":
-                            HandleMovement("east");
+                            MoveEast();
                             break;
                         case "south":
-                            HandleMovement("south");
+                            MoveSouth();
                             break;
                         case "west":
-                            HandleMovement("west");
+                            MoveWest();
                             break;
                         case "prompt":
                             Console.WriteLine("Your current prompt is: " + PlayerPrompt);
@@ -115,5 +118,67 @@ namespace TheHorror
             }
             return PlayerPrompt;
         }
+
+        #region MovementMethods
+        void MoveNorth()
+        {
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1) != null)
+            {
+                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1);
+                Console.WriteLine("Moving north");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Cannot move there!");
+                Console.ForegroundColor = defaultConsoleTextColor;
+            }
+        }
+
+        void MoveEast()
+        {
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate) != null)
+            {
+                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate);
+                Console.WriteLine("Moving east");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Cannot move there!");
+                Console.ForegroundColor = defaultConsoleTextColor;
+            }
+        }
+
+        void MoveSouth()
+        {
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1) != null)
+            {
+                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1);
+                Console.WriteLine("Moving south");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Cannot move there!");
+                Console.ForegroundColor = defaultConsoleTextColor;
+            }
+        }
+
+        void MoveWest()
+        {
+            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate) != null)
+            {
+                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate);
+                Console.WriteLine("Moving west");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Cannot move there!");
+                Console.ForegroundColor = defaultConsoleTextColor;
+            }
+        }
+        #endregion
     }
 }
