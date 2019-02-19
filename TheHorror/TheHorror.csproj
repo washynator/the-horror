@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseCommand.cs" />
+    <Compile Include="Commands\East.cs" />
+    <Compile Include="Commands\North.cs" />
+    <Compile Include="Commands\South.cs" />
+    <Compile Include="Commands\West.cs" />
     <Compile Include="KeyWords.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

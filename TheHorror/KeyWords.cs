@@ -14,7 +14,8 @@ namespace TheHorror
             "east",
             "south",
             "west",
-            "prompt"
+            "prompt",
+            "look"
         };
     }
 }

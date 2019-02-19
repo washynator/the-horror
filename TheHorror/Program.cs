@@ -9,12 +9,17 @@ namespace TheHorror
     class Program
     {
         public static Program CurrentSession = new Program();
+        public static Player CurrentPlayer = new Player();
+        public static World CurrentWorld = new World();
+        public static Room CurrentRoom = new Room();
+        public static Commands.North North = new Commands.North();
+        public static Commands.South South= new Commands.South();
+        public static Commands.East East = new Commands.East();
+        public static Commands.West West = new Commands.West();
+
+        public static readonly ConsoleColor defaultConsoleTextColor = ConsoleColor.Gray;
         public string PlayerPrompt = ">> ";
-        public Player CurrentPlayer = new Player();
-        public World CurrentWorld = new World();
-        public Room CurrentRoom = new Room();
-        readonly ConsoleColor defaultConsoleTextColor = ConsoleColor.Gray;
-        
+
         static void Main(string[] args)
         {
             CurrentSession.StartGame();
@@ -39,7 +44,6 @@ namespace TheHorror
         void PrintPrompt()
         {
             Console.WriteLine(CurrentRoom.Name);
-            Console.WriteLine(CurrentRoom.Description);
             Console.Write(PlayerPrompt);
         }
 
@@ -84,6 +88,8 @@ namespace TheHorror
 
             string[] command = formattedPlayerInput.Split(' ');
 
+            //North.ExecuteCommand(command[0]);
+
             for (int i = 0; i < command.Length; i++)
             {
                 for (int j = 0; j < KeyWords.keyWords.Length; j++)
@@ -95,20 +101,23 @@ namespace TheHorror
                         case "exit":
                             return "quit";
                         case "north":
-                            MoveNorth();
+                            North.ExecuteCommand(command[i]);
                             break;
                         case "east":
-                            MoveEast();
+                            East.ExecuteCommand(command[i]);
                             break;
                         case "south":
-                            MoveSouth();
+                            South.ExecuteCommand(command[i]);
                             break;
                         case "west":
-                            MoveWest();
+                            West.ExecuteCommand(command[i]);
                             break;
                         case "prompt":
                             Console.WriteLine("Your current prompt is: " + PlayerPrompt);
                             EditPrompt();
+                            break;
+                        case "look":
+                            Console.WriteLine(CurrentRoom.Description);
                             break;
                         default:
                             break;
