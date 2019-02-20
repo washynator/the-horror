@@ -16,9 +16,12 @@ namespace TheHorror
         public static Commands.South South= new Commands.South();
         public static Commands.East East = new Commands.East();
         public static Commands.West West = new Commands.West();
-
+        public static Commands.Prompt PlayerPrompt = new Commands.Prompt();
+        public static Commands.Look Look = new Commands.Look();
+        public static Commands.Echo Echo = new Commands.Echo();
         public static readonly ConsoleColor defaultConsoleTextColor = ConsoleColor.Gray;
-        public string PlayerPrompt = ">> ";
+
+        public static bool EchoState = true;
 
         static void Main(string[] args)
         {
@@ -26,9 +29,10 @@ namespace TheHorror
 
             do
             {
-                CurrentSession.PrintExits();
-                CurrentSession.PrintPrompt();
-            } while (CurrentSession.GetInput(Console.ReadLine()) != KeyWords.keyWords[0]);
+                Console.Write(CurrentRoom.Name);
+                Console.Write(CurrentSession.PrintExits());
+                Console.Write(Commands.Prompt.CurrentPrompt);
+                } while (CurrentSession.GetInput(Console.ReadLine()) != "quit");
         }
 
         void StartGame()
@@ -41,15 +45,9 @@ namespace TheHorror
             CurrentRoom = CurrentWorld.GetRoom(0, 0);
         }
 
-        void PrintPrompt()
+        string PrintExits()
         {
-            Console.WriteLine(CurrentRoom.Name);
-            Console.Write(PlayerPrompt);
-        }
-
-        void PrintExits()
-        {
-            string exitPrompt = "(";
+            string exitPrompt = " (";
 
             if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1) != null)
             {
@@ -71,123 +69,78 @@ namespace TheHorror
                 exitPrompt += " west ";
             }
 
-            Console.Write(exitPrompt + ") ");
+            return exitPrompt + ")\n";
 
-        }
-
-        void EditPrompt()
-        {
-            Console.Write("Now you can input any kind of prompt you would like (space will not be added): ");
-            PlayerPrompt = Console.ReadLine();
         }
 
         public string GetInput(string playerInput)
         {
             playerInput = playerInput.ToLower();
+            // Removes extra spaces
             string formattedPlayerInput = Regex.Replace(playerInput, " {2,}", " ");
 
-            string[] command = formattedPlayerInput.Split(' ');
+            string[] input = formattedPlayerInput.Split(' ');
 
-            //North.ExecuteCommand(command[0]);
-
-            for (int i = 0; i < command.Length; i++)
+            foreach (string command in input)
             {
-                for (int j = 0; j < KeyWords.keyWords.Length; j++)
+                if (EchoState == true)
                 {
-                    switch (command[i])
-                    {
-                        case "quit":
-                            return "quit";
-                        case "exit":
-                            return "quit";
-                        case "north":
-                            North.ExecuteCommand(command[i]);
-                            break;
-                        case "east":
-                            East.ExecuteCommand(command[i]);
-                            break;
-                        case "south":
-                            South.ExecuteCommand(command[i]);
-                            break;
-                        case "west":
-                            West.ExecuteCommand(command[i]);
-                            break;
-                        case "prompt":
-                            Console.WriteLine("Your current prompt is: " + PlayerPrompt);
-                            EditPrompt();
-                            break;
-                        case "look":
-                            Console.WriteLine(CurrentRoom.Description);
-                            break;
-                        default:
-                            break;
-                    }
-                    return command[i];
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(command);
+                    Console.ForegroundColor = defaultConsoleTextColor;
                 }
+                
+                switch (command)
+                {
+                    case "north":
+                    case "n":
+                        North.ExecuteCommand(command);
+                        break;
+                    case "east":
+                    case "e":
+                        East.ExecuteCommand(command);
+                        break;
+                    case "south":
+                    case "s":
+                        South.ExecuteCommand(command);
+                        break;
+                    case "west":
+                    case "w":
+                        West.ExecuteCommand(command);
+                        break;
+                    case "prompt":
+                        PlayerPrompt.ExecuteCommand(command);
+                        break;
+                    case "echo":
+                        // todo: don't do this
+                        if (input.Length - 1 > 0)
+                        {
+                            Echo.ExecuteCommand(input[1]);
+                        }
+                        else
+                        {
+                            Echo.ExecuteCommand(command);
+                        }
+                        break;
+                    case "look":
+                    case "l":
+                        // todo: don't do this
+                        if (input.Length - 1 > 0)
+                        {
+                            Look.ExecuteCommand(input[1]);
+                        }
+                        else
+                        {
+                            Look.ExecuteCommand(command);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                
+                return command;
             }
-            return PlayerPrompt;
+            return Commands.Prompt.CurrentPrompt;
         }
-
-        #region MovementMethods
-        void MoveNorth()
-        {
-            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1) != null)
-            {
-                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1);
-                Console.WriteLine("Moving north");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Cannot move there!");
-                Console.ForegroundColor = defaultConsoleTextColor;
-            }
-        }
-
-        void MoveEast()
-        {
-            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate) != null)
-            {
-                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate);
-                Console.WriteLine("Moving east");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Cannot move there!");
-                Console.ForegroundColor = defaultConsoleTextColor;
-            }
-        }
-
-        void MoveSouth()
-        {
-            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1) != null)
-            {
-                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1);
-                Console.WriteLine("Moving south");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Cannot move there!");
-                Console.ForegroundColor = defaultConsoleTextColor;
-            }
-        }
-
-        void MoveWest()
-        {
-            if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate) != null)
-            {
-                CurrentRoom = CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate);
-                Console.WriteLine("Moving west");
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Cannot move there!");
-                Console.ForegroundColor = defaultConsoleTextColor;
-            }
-        }
-        #endregion
     }
 }

@@ -45,7 +45,10 @@
   <ItemGroup>
     <Compile Include="BaseCommand.cs" />
     <Compile Include="Commands\East.cs" />
+    <Compile Include="Commands\Echo.cs" />
+    <Compile Include="Commands\Look.cs" />
     <Compile Include="Commands\North.cs" />
+    <Compile Include="Commands\Prompt.cs" />
     <Compile Include="Commands\South.cs" />
     <Compile Include="Commands\West.cs" />
     <Compile Include="KeyWords.cs" />
