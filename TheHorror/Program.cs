@@ -9,16 +9,16 @@ namespace TheHorror
     class Program
     {
         public static Program CurrentSession = new Program();
-        public static Player CurrentPlayer = new Player();
+        public Player CurrentPlayer = new Player();
         public static World CurrentWorld = new World();
         public static Room CurrentRoom = new Room();
-        public static Commands.North North = new Commands.North();
-        public static Commands.South South= new Commands.South();
-        public static Commands.East East = new Commands.East();
-        public static Commands.West West = new Commands.West();
-        public static Commands.Prompt PlayerPrompt = new Commands.Prompt();
-        public static Commands.Look Look = new Commands.Look();
-        public static Commands.Echo Echo = new Commands.Echo();
+        public Commands.North North = new Commands.North();
+        public Commands.South South= new Commands.South();
+        public Commands.East East = new Commands.East();
+        public Commands.West West = new Commands.West();
+        public Commands.Prompt PlayerPrompt = new Commands.Prompt();
+        public Commands.Look Look = new Commands.Look();
+        public Commands.Echo Echo = new Commands.Echo();
         public static readonly ConsoleColor defaultConsoleTextColor = ConsoleColor.Gray;
 
         public static bool EchoState = true;
@@ -47,30 +47,30 @@ namespace TheHorror
 
         string PrintExits()
         {
+            //todo: fix this
             string exitPrompt = " (";
 
             if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate + 1) != null)
             {
-                exitPrompt += " north ";
+                exitPrompt += "n, ";
             }
 
             if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate + 1, CurrentRoom.YCoordinate) != null)
             {
-                exitPrompt += " east ";
+                exitPrompt += "e, ";
             }
 
             if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate, CurrentRoom.YCoordinate - 1) != null)
             {
-                exitPrompt += " south ";
+                exitPrompt += "s, ";
             }
 
             if (CurrentWorld.GetRoom(CurrentRoom.XCoordinate - 1, CurrentRoom.YCoordinate) != null)
             {
-                exitPrompt += " west ";
+                exitPrompt += "w";
             }
 
             return exitPrompt + ")\n";
-
         }
 
         public string GetInput(string playerInput)
