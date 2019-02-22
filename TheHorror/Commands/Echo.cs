@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheHorror.Commands
 {
-    class Echo : BaseCommand
+    public class Echo : BaseCommand
     {
         public override void ExecuteCommand(string command)
         {

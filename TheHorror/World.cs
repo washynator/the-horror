@@ -13,18 +13,20 @@ namespace TheHorror
         public void GenerateWorld()
         {
             AddRoom("Home", "This is your home", 0, 0);
-            AddRoom("Test room", "This is a test room", 0, 1);
-            AddRoom("Another test room", "Still just testing", 1, 0);
-            AddRoom("Again with a test", "Yes, we are just testing", 1, 1);
+            AddRoom("North corridor", "This is a test room", 0, 1);
+            AddRoom("East corridor", "Still just testing", 1, 0);
+            AddRoom("Northeast corridor", "Yes, we are just testing", 1, 1);
         }
 
         public void AddRoom(string name, string description, int xCoordinate, int yCoordinate)
         {
-            Room room = new Room();
-            room.Name = name;
-            room.Description = description;
-            room.XCoordinate = xCoordinate;
-            room.YCoordinate = yCoordinate;
+            Room room = new Room
+            {
+                Name = name,
+                Description = description,
+                XCoordinate = xCoordinate,
+                YCoordinate = yCoordinate
+            };
 
             rooms.Add(room);
         }

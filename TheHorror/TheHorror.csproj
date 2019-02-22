@@ -51,6 +51,7 @@
     <Compile Include="Commands\Prompt.cs" />
     <Compile Include="Commands\South.cs" />
     <Compile Include="Commands\West.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="KeyWords.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
