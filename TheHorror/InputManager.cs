@@ -57,6 +57,7 @@ namespace TheHorror
                         break;
                     case "echo":
                         // todo: don't do this
+                        // use events
                         if (input.Length - 1 > 0)
                         {
                             Echo.ExecuteCommand(input[1]);
@@ -69,6 +70,7 @@ namespace TheHorror
                     case "look":
                     case "l":
                         // todo: don't do this
+                        // use events
                         if (input.Length - 1 > 0)
                         {
                             Look.ExecuteCommand(input[1]);
