@@ -10,6 +10,7 @@ namespace TheHorror
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public Exit[] Exits { get; set; }
         public int XCoordinate { get; set; }
         public int YCoordinate { get; set; }
     }
