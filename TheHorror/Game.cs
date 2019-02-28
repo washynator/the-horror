@@ -5,11 +5,11 @@ using System.Text;
 
 namespace TheHorror
 {
-    class Program
+    public static class Game
     {
-        public static Program CurrentSession = new Program();
-        public static InputManager inputManager = new InputManager();
-        public Player CurrentPlayer = new Player();
+        //public static InputManager InputManager = new InputManager();
+        //public static Commands.North North = new Commands.North();
+        public static Player CurrentPlayer = new Player();
         public static World CurrentWorld = new World();
         public static Room CurrentRoom = new Room();
 
@@ -19,17 +19,20 @@ namespace TheHorror
 
         static void Main(string[] args)
         {
-            CurrentSession.StartGame();
+            var inputManager = new InputManager();
+            var north = new Commands.North(inputManager);
+            var south = new Commands.South(inputManager);
+            StartGame();
 
             do
             {
                 Console.Write(CurrentRoom.Name);
-                Console.Write(CurrentSession.PrintExits());
+                Console.Write(PrintExits());
                 Console.Write(Commands.Prompt.CurrentPrompt);
                 } while (inputManager.GetInput(Console.ReadLine()) != "quit");
         }
 
-        void StartGame()
+        static void StartGame()
         {
             Console.WriteLine("Welcome to THE HORROR!");
             Console.Write("Please enter your name, before entering the house of horrors: ");
@@ -39,7 +42,7 @@ namespace TheHorror
             CurrentRoom = CurrentWorld.GetRoom(0, 0);
         }
 
-        string PrintExits()
+        static string PrintExits()
         {
             //todo: fix this
             string exitPrompt = " (";

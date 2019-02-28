@@ -12,11 +12,11 @@ namespace TheHorror.Commands
         {
             if (command == "on")
             {
-                Program.EchoState = true;
+                Game.EchoState = true;
             }
             if (command == "off")
             {
-                Program.EchoState = false;
+                Game.EchoState = false;
             }
         }
     }

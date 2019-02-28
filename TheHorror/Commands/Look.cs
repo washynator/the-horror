@@ -17,7 +17,7 @@ namespace TheHorror.Commands
             }
             else
             {
-                Console.WriteLine(Program.CurrentRoom.Description);
+                Console.WriteLine(Game.CurrentRoom.Description);
             }
         }
     }

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace TheHorror
 {
+    public delegate void InputEventHandler(object sender, InputManagerEventArgs args);
+
     public class InputManager
     {
-        public Commands.North North = new Commands.North();
-        public Commands.South South = new Commands.South();
+        public event InputEventHandler Input;
+
         public Commands.East East = new Commands.East();
         public Commands.West West = new Commands.West();
         public Commands.Prompt PlayerPrompt = new Commands.Prompt();
@@ -25,20 +27,23 @@ namespace TheHorror
 
             string[] input = formattedPlayerInput.Split(' ');
 
-            foreach (string command in input)
+            Input(this, new InputManagerEventArgs { Command = input[0] });
+
+            /*foreach (string command in input)
             {
-                if (Program.EchoState == true)
+                if (Game.EchoState == true)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(command);
-                    Console.ForegroundColor = Program.defaultConsoleTextColor;
+                    Console.ForegroundColor = Game.defaultConsoleTextColor;
                 }
 
                 switch (command)
                 {
                     case "north":
                     case "n":
-                        North.ExecuteCommand(command);
+                        //North.ExecuteCommand(command);
+                        
                         break;
                     case "east":
                     case "e":
@@ -56,8 +61,7 @@ namespace TheHorror
                         PlayerPrompt.ExecuteCommand(command);
                         break;
                     case "echo":
-                        // todo: don't do this
-                        // use events
+                        // todo: use events
                         if (input.Length - 1 > 0)
                         {
                             Echo.ExecuteCommand(input[1]);
@@ -69,8 +73,7 @@ namespace TheHorror
                         break;
                     case "look":
                     case "l":
-                        // todo: don't do this
-                        // use events
+                        // todo: use events
                         if (input.Length - 1 > 0)
                         {
                             Look.ExecuteCommand(input[1]);
@@ -85,7 +88,7 @@ namespace TheHorror
                 }
 
                 return command;
-            }
+            }*/
             return Commands.Prompt.CurrentPrompt;
         }
     }

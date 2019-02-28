@@ -11,6 +11,14 @@ namespace TheHorror
         List<Room> rooms = new List<Room>();
         Dictionary<string, Room> exitDictionary = new Dictionary<string, Room>();
 
+        /*void CreateExit()
+        {
+            Exit exit = new Exit();
+            exit.KeyString = "north";
+            exit.ExitDescription = "You walk north.";
+            exit.ValueRoom = rooms[1];
+        }*/
+
         public void GenerateWorld()
         {
             AddRoom("Home", "This is your home", null, 0, 0);

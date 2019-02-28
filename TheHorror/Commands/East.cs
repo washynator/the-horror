@@ -10,16 +10,16 @@ namespace TheHorror.Commands
     {
         public override void ExecuteCommand(string command)
         {
-            if (Program.CurrentWorld.GetRoom(Program.CurrentRoom.XCoordinate + 1, Program.CurrentRoom.YCoordinate) != null)
+            if (Game.CurrentWorld.GetRoom(Game.CurrentRoom.XCoordinate + 1, Game.CurrentRoom.YCoordinate) != null)
             {
-                Program.CurrentRoom = Program.CurrentWorld.GetRoom(Program.CurrentRoom.XCoordinate + 1, Program.CurrentRoom.YCoordinate);
+                Game.CurrentRoom = Game.CurrentWorld.GetRoom(Game.CurrentRoom.XCoordinate + 1, Game.CurrentRoom.YCoordinate);
                 Console.WriteLine("Moving " + command);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Cannot move there!");
-                Console.ForegroundColor = Program.defaultConsoleTextColor;
+                Console.ForegroundColor = Game.defaultConsoleTextColor;
             }
         }
     }
