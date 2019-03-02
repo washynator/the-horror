@@ -13,21 +13,36 @@ namespace TheHorror
     {
         public event InputEventHandler Input;
 
-        public Commands.East East = new Commands.East();
-        public Commands.West West = new Commands.West();
         public Commands.Prompt PlayerPrompt = new Commands.Prompt();
         public Commands.Look Look = new Commands.Look();
         public Commands.Echo Echo = new Commands.Echo();
 
         public string GetInput(string playerInput)
         {
+            if (Game.EchoState == true)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(playerInput);
+                Console.ForegroundColor = Game.defaultConsoleTextColor;
+            }
+
             playerInput = playerInput.ToLower();
             // Removes extra spaces
             string formattedPlayerInput = Regex.Replace(playerInput, " {2,}", " ");
 
             string[] input = formattedPlayerInput.Split(' ');
 
-            Input(this, new InputManagerEventArgs { Command = input[0] });
+            if (Input != null)
+            {
+                
+
+                Input(this, new InputManagerEventArgs { Command = input[0] });
+            }
+            else
+            {
+                Console.WriteLine("Input() is null, please fix me!");
+            }
+            
 
             /*foreach (string command in input)
             {

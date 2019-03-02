@@ -7,8 +7,6 @@ namespace TheHorror
 {
     public static class Game
     {
-        //public static InputManager InputManager = new InputManager();
-        //public static Commands.North North = new Commands.North();
         public static Player CurrentPlayer = new Player();
         public static World CurrentWorld = new World();
         public static Room CurrentRoom = new Room();
@@ -22,6 +20,8 @@ namespace TheHorror
             var inputManager = new InputManager();
             var north = new Commands.North(inputManager);
             var south = new Commands.South(inputManager);
+            var east = new Commands.East(inputManager);
+            var west = new Commands.West(inputManager);
             StartGame();
 
             do

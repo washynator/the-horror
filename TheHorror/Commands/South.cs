@@ -15,14 +15,10 @@ namespace TheHorror.Commands
             _inputManager = inputManager;
             _inputManager.Input += (object sender, InputManagerEventArgs args) =>
             {
-                // todo: fix this so it doesn't respond to other valid commands
+                // todo: add correct else-clause to handle invalid input, get the command-files and go from there
                 if (args.Command == "south")
                 {
                     Console.WriteLine("South is here, yay! ");
-                }
-                else
-                {
-                    Console.WriteLine("What?");
                 }
             };
         }

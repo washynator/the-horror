@@ -8,6 +8,21 @@ namespace TheHorror.Commands
 {
     public class West : BaseCommand
     {
+        private InputManager _inputManager;
+
+        public West(InputManager inputManager)
+        {
+            _inputManager = inputManager;
+            _inputManager.Input += (object sender, InputManagerEventArgs args) =>
+            {
+                // todo: add correct else-clause to handle invalid input, get the command-files and go from there
+                if (args.Command == "west")
+                {
+                    Console.WriteLine("West is here, yay! ");
+                }
+            };
+        }
+
         public override void ExecuteCommand(string command)
         {
             if (Game.CurrentWorld.GetRoom(Game.CurrentRoom.XCoordinate - 1, Game.CurrentRoom.YCoordinate) != null)
