@@ -17,13 +17,9 @@ namespace TheHorror
 
         static void Main(string[] args)
         {
-            var inputManager = new InputManager();
-            var north = new Commands.North(inputManager);
-            var south = new Commands.South(inputManager);
-            var east = new Commands.East(inputManager);
-            var west = new Commands.West(inputManager);
-            StartGame();
-
+            var inputManager = GetReferences();
+            PrintStartGame();
+            
             do
             {
                 Console.Write(CurrentRoom.Name);
@@ -32,7 +28,7 @@ namespace TheHorror
                 } while (inputManager.GetInput(Console.ReadLine()) != "quit");
         }
 
-        static void StartGame()
+        static void PrintStartGame()
         {
             Console.WriteLine("Welcome to THE HORROR!");
             Console.Write("Please enter your name, before entering the house of horrors: ");
@@ -40,6 +36,17 @@ namespace TheHorror
             Console.WriteLine("Okay, " + CurrentPlayer.Name + " we are happy to have you here. I'm sure you won't be so happy. BWAHAHAHAHA!");
             CurrentWorld.GenerateWorld();
             CurrentRoom = CurrentWorld.GetRoom(0, 0);
+        }
+
+        static InputManager GetReferences()
+        {
+            var inputManager = new InputManager();
+            var north = new Commands.North(inputManager);
+            var south = new Commands.South(inputManager);
+            var east = new Commands.East(inputManager);
+            var west = new Commands.West(inputManager);
+
+            return inputManager;
         }
 
         static string PrintExits()

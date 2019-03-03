@@ -18,7 +18,7 @@ namespace TheHorror.Commands
                 // todo: add correct else-clause to handle invalid input, get the command-files and go from there
                 if (args.Command == "east")
                 {
-                    Console.WriteLine("East is here, yay! ");
+                    ExecuteCommand(args.Command);
                 }
             };
         }

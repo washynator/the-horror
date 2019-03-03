@@ -34,8 +34,6 @@ namespace TheHorror
 
             if (Input != null)
             {
-                
-
                 Input(this, new InputManagerEventArgs { Command = input[0] });
             }
             else
